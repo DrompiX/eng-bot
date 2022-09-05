@@ -1,0 +1,13 @@
+db:
+  host: pgdb
+  port: 5432
+  user: postgres
+  password: postgres
+  dbname: termit
+
+term_service:
+  term_limit: 20
+
+server:
+  grpc_port: 8888
+  http_port: 8080

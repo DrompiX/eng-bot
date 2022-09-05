@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package drompix.termit;
+
+option go_package = ".;pb";
+
+import "google/api/annotations.proto";
+
+message GetTaskRequest {}
+message GetTaskReponse {
+  string id = 1;
+  string term = 2;
+}
+
+message CheckAnswerRequest {
+  string id = 1;
+  string translation = 2;
+}
+message CheckAnswerResponse {
+  bool success = 1;
+  string answer = 2;
+  string expected = 3;
+}
+
+service TaskService {
+  rpc GetTask(GetTaskRequest) returns (GetTaskReponse) {
+    option (google.api.http) = {
+      get : "/v1/task"
+    };
+  };
+  rpc CheckAnswer(CheckAnswerRequest) returns (CheckAnswerResponse) {
+    option (google.api.http) = {
+      post : "/v1/check"
+      body : "*"
+    };
+  };
+}

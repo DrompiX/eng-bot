@@ -1,0 +1,139 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "term_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "TermService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/collection": {
+      "get": {
+        "operationId": "TermService_GetCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/termitGetCollectionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "TermService"
+        ]
+      }
+    },
+    "/v1/term": {
+      "post": {
+        "operationId": "TermService_AddTerm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/termitAddTermResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/termitAddTermRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TermService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetCollectionResponseTermInfo": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "translation": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "termitAddTermRequest": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "translation": {
+          "type": "string"
+        }
+      }
+    },
+    "termitAddTermResponse": {
+      "type": "object"
+    },
+    "termitGetCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetCollectionResponseTermInfo"
+          }
+        }
+      }
+    }
+  }
+}

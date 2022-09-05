@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package drompix.termit;
+
+option go_package = ".;pb";
+
+import "google/api/annotations.proto";
+
+message AddTermRequest {
+  string term = 1;
+  string translation = 2;
+}
+message AddTermResponse {}
+
+message GetCollectionRequest {}
+message GetCollectionResponse {
+  message TermInfo {
+    string term = 1;
+    string translation = 2;
+  };
+  repeated TermInfo terms = 1;
+};
+
+service TermService {
+  rpc AddTerm(AddTermRequest) returns (AddTermResponse) {
+    option (google.api.http) = {
+      post : "/v1/term"
+      body : "*"
+    };
+  };
+  rpc GetCollection(GetCollectionRequest) returns (GetCollectionResponse) {
+    option (google.api.http) = {
+      get : "/v1/collection"
+    };
+  };
+}

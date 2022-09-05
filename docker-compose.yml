@@ -1,0 +1,57 @@
+version: '3.8'
+
+x-db-variables: &db-variables
+  POSTGRES_DB: termit
+  POSTGRES_HOST: pgdb
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+services:
+  botman:
+    container_name: botman
+    hostname: botman
+    build:
+      context: ./botman
+    volumes:
+      - ./botman/config.prod.yml:/app/config.yml:ro
+    networks:
+      - local_net
+    restart: unless-stopped
+    depends_on:
+      - termit
+
+  termit:
+    container_name: termit
+    hostname: termit
+    build:
+      context: ./termit
+    environment: *db-variables
+    ports:
+      - 8080:8080  # HTTP
+      - 8888:8888  # GRPC
+    networks:
+      - local_net
+    restart: unless-stopped
+    depends_on:
+      - pgdb
+
+  pgdb:
+    container_name: pgdb
+    hostname: pgdb
+    build:
+      context: ./db
+    environment: *db-variables
+    ports:
+      - 5432:5432
+    networks:
+      - local_net
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+networks:
+  local_net:
+
+volumes:
+  pg_data:
+    external: false

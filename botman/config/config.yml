@@ -1,0 +1,6 @@
+bot_config:
+  token: <bot_token>
+  debug: true
+
+server_config:
+  url: <server_url>:<server_port>
